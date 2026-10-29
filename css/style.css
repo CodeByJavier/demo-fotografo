@@ -1,0 +1,1492 @@
+/**
+ * IRIA SEOANE — FOTOGRAFÍA DE PAISAJE
+ * Plantilla para fotógrafos: la interfaz se retira para que mande la foto.
+ *
+ * Qué toma de la plantilla de casas rurales (Casa Verdés):
+ *  - Cabecera transparente que pasa a sólida al bajar, con navegación de
+ *    escritorio y panel lateral en móvil.
+ *  - Visor de imágenes accesible (diálogo modal, trampa de foco, teclado).
+ *  - Retícula "breakout" para la imagen que llega al borde de la ventana.
+ *  - Formulario con campos de solo línea inferior y validación en vivo.
+ *  - Reglas base que ya nos salvaron de fallos: img{height:auto} y [hidden].
+ *
+ * Qué la hace distinta:
+ *  - Fondo oscuro de galería: las fotos se ven más luminosas sobre negro.
+ *  - Portada con pase de fotos (con pausa, como pide WCAG 2.2.2).
+ *  - Galería en columnas que respeta la proporción ORIGINAL de cada foto:
+ *    a un fotógrafo no se le recortan las fotos.
+ *  - Datos de toma (diafragma, velocidad, ISO) en tipografía monoespaciada
+ *    del sistema, sin descargar una fuente más.
+ *  - Copias de autor presentadas como láminas enmarcadas, hechas solo con CSS.
+ *
+ * Contraste comprobado con la fórmula de luminancia relativa de WCAG sobre
+ * los dos fondos oscuros (--clr-bg y --clr-bg-alt).
+ */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --clr-bg: #0e0e0d;
+  --clr-bg-alt: #161614;
+  --clr-surface: #1d1d1b;
+  --clr-ink: #f2f0ea;
+  --clr-body: #b9b7af;
+  --clr-muted: #8f8d86;
+  --clr-line: #2e2d2a;
+  /* Rojo "punto de grabación": se usa muy poco, para señalar */
+  --clr-accent: #e8553d;
+
+  --clr-error: #ff9d95;
+  --clr-success-bg: #12301f;
+  --clr-success: #8fe0b0;
+  --clr-error-bg: #3a1714;
+
+  --font-display: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+  /* Monoespaciada del sistema: los datos de toma no justifican otra descarga */
+  --font-mono: ui-monospace, "Cascadia Mono", Consolas, "SF Mono", Menlo, monospace;
+
+  --gap: clamp(1.25rem, 3.5vw, 2.75rem);
+  --pad-section: clamp(4.5rem, 8vw, 7.5rem);
+  --container: 1320px;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--clr-body);
+  background: var(--clr-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  /* Sin esto, el atributo height del HTML se aplica como altura real en CSS
+     y deforma o recorta la foto (fallo ya visto en Casa Verdés). */
+  height: auto;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* El atributo hidden tiene que ganar siempre a cualquier display de una clase */
+[hidden] {
+  display: none !important;
+}
+
+:focus-visible {
+  outline: 2px solid var(--clr-ink);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+ * Tipografía y utilidades
+ * ------------------------------------------------------------------- */
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.05;
+  color: var(--clr-ink);
+  letter-spacing: -0.01em;
+}
+
+h1 em,
+h2 em {
+  font-style: italic;
+  font-weight: 400;
+}
+
+.display-xl {
+  font-size: clamp(2.6rem, 5.2vw, 5rem);
+}
+
+.display-l {
+  font-size: clamp(2.1rem, 3.6vw, 3.4rem);
+}
+
+.display-m {
+  font-size: clamp(1.6rem, 2.2vw, 2.1rem);
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--clr-muted);
+}
+
+/* Punto rojo delante de la etiqueta, como el indicador de grabación */
+.label--dot::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--clr-accent);
+}
+
+.lead {
+  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+  line-height: 1.65;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gap);
+}
+
+.section {
+  padding-block: var(--pad-section);
+}
+
+.section--alt {
+  background: var(--clr-bg-alt);
+}
+
+.section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem 3rem;
+  margin-bottom: clamp(2rem, 4vw, 3.25rem);
+}
+
+.section-head h2 {
+  margin-top: 0.9rem;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -5rem;
+  z-index: 300;
+  padding: 0.9rem 1.4rem;
+  background: var(--clr-ink);
+  color: var(--clr-bg);
+  text-decoration: none;
+  transition: top 0.2s var(--ease);
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------------
+ * Botones y enlaces
+ * ------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.95rem 1.9rem;
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: background 0.3s var(--ease), color 0.3s var(--ease),
+    border-color 0.3s var(--ease);
+}
+
+.btn--light {
+  background: var(--clr-ink);
+  color: var(--clr-bg);
+}
+
+.btn--light:hover {
+  background: #fff;
+}
+
+.btn--ghost {
+  border-color: rgba(242, 240, 234, 0.55);
+  color: var(--clr-ink);
+}
+
+.btn--ghost:hover {
+  background: var(--clr-ink);
+  border-color: var(--clr-ink);
+  color: var(--clr-bg);
+}
+
+.btn--block {
+  width: 100%;
+}
+
+/* Enlace con flecha que se desplaza al pasar por encima */
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--clr-ink);
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--clr-line);
+  transition: border-color 0.3s var(--ease);
+}
+
+.link-arrow span {
+  transition: transform 0.3s var(--ease);
+}
+
+.link-arrow:hover {
+  border-color: var(--clr-ink);
+}
+
+.link-arrow:hover span {
+  transform: translateX(4px);
+}
+
+/* ---------------------------------------------------------------------
+ * Cabecera y navegación (mismo patrón que Casa Verdés)
+ * ------------------------------------------------------------------- */
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  height: 84px;
+  color: var(--clr-ink);
+  transition: background 0.4s var(--ease), height 0.4s var(--ease),
+    border-color 0.4s var(--ease);
+  border-bottom: 1px solid transparent;
+}
+
+/* Sin backdrop-filter: el panel móvil es un descendiente fijo de la cabecera */
+.site-header.is-scrolled {
+  height: 68px;
+  background: rgba(14, 14, 13, 0.96);
+  border-bottom-color: var(--clr-line);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  width: 100%;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.brand__name {
+  white-space: nowrap; /* el nombre nunca se parte en dos líneas */
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* En pantallas estrechas no caben nombre, etiqueta y botón de menú */
+@media (max-width: 479px) {
+  .brand__tag {
+    display: none;
+  }
+}
+
+.brand__tag {
+  font-size: 0.64rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--clr-muted);
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.5rem, 3vw, 2.75rem);
+}
+
+.site-nav__list {
+  list-style: none;
+  display: flex;
+  gap: clamp(1.25rem, 2.4vw, 2.25rem);
+}
+
+.site-nav__list a {
+  position: relative;
+  display: inline-block;
+  padding: 0.4rem 0;
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.site-nav__list a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s var(--ease);
+}
+
+.site-nav__list a:hover::after,
+.site-nav__list a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.site-nav__cta {
+  padding: 0.7rem 1.5rem;
+}
+
+.site-nav__contact {
+  display: none;
+}
+
+.menu-btn {
+  display: none;
+  align-items: center;
+  gap: 0.85rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  padding: 0.6rem 0.2rem;
+}
+
+.menu-btn__bars {
+  position: relative;
+  width: 26px;
+  height: 9px;
+}
+
+.menu-btn__bars span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform 0.35s var(--ease);
+}
+
+.menu-btn__bars span:first-child { top: 0; }
+.menu-btn__bars span:last-child { bottom: 0; }
+
+.menu-btn[aria-expanded="true"] .menu-btn__bars span:first-child {
+  transform: translateY(4px) rotate(45deg);
+}
+
+.menu-btn[aria-expanded="true"] .menu-btn__bars span:last-child {
+  transform: translateY(-4px) rotate(-45deg);
+}
+
+.nav-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 115;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease);
+}
+
+.nav-backdrop.is-visible {
+  opacity: 1;
+}
+
+@media (max-width: 959px) {
+  .menu-btn {
+    display: inline-flex;
+    position: relative;
+    z-index: 2;
+  }
+
+  .site-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    width: min(360px, 86vw);
+    height: 100vh;
+    height: 100dvh;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2.2rem;
+    padding: 6.5rem 2rem 2.5rem;
+    overflow-y: auto;
+    background: var(--clr-bg-alt);
+    border-left: 1px solid var(--clr-line);
+    transform: translateX(100%);
+    visibility: hidden;
+    /* visibility cambia al instante al abrir: si se animase, el foco no
+       podría entrar en el panel durante el primer fotograma */
+    transition: transform 0.4s var(--ease), visibility 0s linear 0.4s;
+  }
+
+  .site-nav.is-open {
+    transform: none;
+    visibility: visible;
+    transition: transform 0.4s var(--ease), visibility 0s;
+  }
+
+  .site-nav__list {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .site-nav__list a {
+    display: block;
+    padding: 1.05rem 0;
+    font-size: 0.84rem;
+    border-bottom: 1px solid var(--clr-line);
+  }
+
+  .site-nav__list a::after {
+    display: none;
+  }
+
+  .site-nav__cta {
+    padding: 1rem;
+  }
+
+  .site-nav__contact {
+    display: block;
+    margin-top: auto;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .site-nav__contact p + p {
+    margin-top: 0.9rem;
+  }
+
+  .site-nav__contact a {
+    color: var(--clr-ink);
+    text-decoration: none;
+  }
+}
+
+/* ---------------------------------------------------------------------
+ * Portada: pase de fotos a pantalla completa
+ * ------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: #000;
+}
+
+.hero__slides,
+.hero__slide,
+.hero__slide img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hero__slide {
+  opacity: 0;
+  transition: opacity 1.4s var(--ease);
+}
+
+.hero__slide.is-active {
+  opacity: 1;
+}
+
+.hero__slide img {
+  object-fit: cover;
+}
+
+/* Degradado solo donde hay texto: abajo y a la izquierda */
+.hero__slides::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.18) 45%, rgba(0, 0, 0, 0.25) 100%),
+    linear-gradient(to right, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 55%);
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: grid;
+  gap: 2.5rem;
+  padding-block: 0 clamp(2rem, 5vh, 3.5rem);
+}
+
+@media (min-width: 900px) {
+  .hero__inner {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+  }
+}
+
+/* Sobre la foto, el gris apagado de las etiquetas pierde contraste en las
+   zonas claras: aquí va casi blanco */
+.hero .label {
+  color: rgba(242, 240, 234, 0.85);
+}
+
+.hero__title {
+  max-width: 13ch;
+  margin-block: 1.2rem 1.4rem;
+}
+
+.hero__text {
+  max-width: 44ch;
+  color: rgba(242, 240, 234, 0.85);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 2rem;
+}
+
+/* Pie de la foto activa + controles del pase */
+.hero__aside {
+  display: grid;
+  gap: 1rem;
+  min-width: min(100%, 300px);
+}
+
+.hero__caption {
+  color: var(--clr-ink);
+}
+
+.hero__caption-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-style: italic;
+}
+
+.hero__caption .mono {
+  display: block;
+  margin-top: 0.2rem;
+  color: rgba(242, 240, 234, 0.75);
+}
+
+.hero__controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hero__counter {
+  color: rgba(242, 240, 234, 0.75);
+  min-width: 4.5ch;
+}
+
+.hero__dots {
+  display: flex;
+  gap: 0.4rem;
+  flex: 1;
+}
+
+/* Cada punto es una línea fina que se rellena mientras la foto está activa */
+.hero__dot {
+  position: relative;
+  flex: 1;
+  height: 24px; /* zona de pulsación cómoda aunque la línea sea fina */
+  min-width: 28px;
+}
+
+.hero__dot::before,
+.hero__dot-fill {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  margin-top: -1px;
+}
+
+.hero__dot::before {
+  background: rgba(242, 240, 234, 0.3);
+}
+
+.hero__dot-fill {
+  background: var(--clr-ink);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.hero__dot.is-done .hero__dot-fill {
+  transform: scaleX(1);
+}
+
+.hero__dot.is-active .hero__dot-fill {
+  animation: slide-progress var(--slide-ms, 6000ms) linear forwards;
+}
+
+.hero.is-paused .hero__dot.is-active .hero__dot-fill {
+  animation-play-state: paused;
+}
+
+@keyframes slide-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* Con movimiento reducido el pase arranca en pausa; si el usuario lo pone en
+   marcha, la barra de progreso debe durar lo mismo que la foto, porque es
+   la que marca el cambio (evento animationend). */
+@media (prefers-reduced-motion: reduce) {
+  .hero__dot.is-active .hero__dot-fill {
+    animation-duration: var(--slide-ms, 6000ms) !important;
+  }
+}
+
+.hero__pause {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(242, 240, 234, 0.4);
+  border-radius: 50%;
+  color: var(--clr-ink);
+  transition: border-color 0.3s var(--ease), background 0.3s var(--ease);
+}
+
+.hero__pause:hover {
+  border-color: var(--clr-ink);
+  background: rgba(242, 240, 234, 0.1);
+}
+
+/* ---------------------------------------------------------------------
+ * Aparición al hacer scroll
+ * ------------------------------------------------------------------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.8s var(--ease) var(--reveal-delay, 0ms),
+    transform 0.8s var(--ease) var(--reveal-delay, 0ms);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------------------------------------------------------------------
+ * Portfolio: filtros + galería en columnas
+ * ------------------------------------------------------------------- */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.6rem;
+  list-style: none;
+}
+
+.filters button {
+  position: relative;
+  padding: 0.45rem 0;
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--clr-muted);
+  transition: color 0.3s var(--ease);
+}
+
+.filters button:hover {
+  color: var(--clr-ink);
+}
+
+.filters button[aria-pressed="true"] {
+  color: var(--clr-ink);
+}
+
+.filters button[aria-pressed="true"]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--clr-accent);
+}
+
+.filters sup {
+  margin-left: 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0;
+}
+
+/* Columnas CSS en vez de rejilla: cada foto conserva su proporción natural
+   (vertical, horizontal, cuadrada) y las columnas se rellenan solas. Una
+   rejilla obligaría a recortar todas al mismo alto. */
+.gallery {
+  columns: 1;
+  column-gap: clamp(0.75rem, 1.6vw, 1.25rem);
+}
+
+@media (min-width: 560px) {
+  .gallery { columns: 2; }
+}
+
+@media (min-width: 1100px) {
+  .gallery { columns: 3; }
+}
+
+.shot {
+  break-inside: avoid;
+  margin-bottom: clamp(1.25rem, 2.4vw, 2rem);
+  animation: shot-in 0.6s var(--ease);
+}
+
+@keyframes shot-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.shot__open {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  background: var(--clr-surface);
+}
+
+.shot__open img {
+  width: 100%;
+  transition: transform 0.8s var(--ease), opacity 0.5s var(--ease);
+}
+
+.shot__open:hover img,
+.shot__open:focus-visible img {
+  transform: scale(1.02);
+}
+
+/* Datos de toma que aparecen sobre la foto al pasar el ratón */
+.shot__exif {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 2.2rem 1rem 0.85rem;
+  text-align: left;
+  color: var(--clr-ink);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0));
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+}
+
+.shot__open:hover .shot__exif,
+.shot__open:focus-visible .shot__exif {
+  opacity: 1;
+  transform: none;
+}
+
+/* En pantallas táctiles no hay "pasar por encima": los datos van fijos */
+@media (hover: none) {
+  .shot__exif {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.shot figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.7rem;
+  font-size: 0.86rem;
+}
+
+.shot__title {
+  font-family: var(--font-display);
+  font-size: 1.12rem;
+  font-style: italic;
+  color: var(--clr-ink);
+}
+
+.shot__place {
+  color: var(--clr-muted);
+  text-align: right;
+}
+
+.gallery-status {
+  margin-top: 0.5rem;
+  color: var(--clr-muted);
+}
+
+/* ---------------------------------------------------------------------
+ * Serie destacada: imagen que llega al borde derecho (retícula breakout)
+ * ------------------------------------------------------------------- */
+.feature-series {
+  --content: min(100% - 2 * var(--gap), var(--container) - 2 * var(--gap));
+  display: grid;
+  gap: 2rem;
+  grid-template-columns:
+    [full-start] 1fr
+    [content-start] minmax(0, var(--content))
+    [content-end] 1fr
+    [full-end];
+}
+
+.feature-series__media,
+.feature-series__text {
+  grid-column: content;
+}
+
+.feature-series__media img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.feature-series__media figcaption {
+  margin-top: 0.7rem;
+  color: var(--clr-muted);
+}
+
+@media (min-width: 960px) {
+  .feature-series {
+    gap: 0;
+    align-items: center;
+    grid-template-columns:
+      [full-start] 1fr
+      [content-start] minmax(0, calc(var(--content) * 0.36))
+      [split] minmax(0, calc(var(--content) * 0.64))
+      [content-end] 1fr
+      [full-end];
+  }
+
+  .feature-series__text {
+    grid-column: content-start / split;
+    grid-row: 1;
+    padding-right: clamp(2rem, 4vw, 4rem);
+  }
+
+  .feature-series__media {
+    grid-column: split / full-end;
+    grid-row: 1;
+  }
+}
+
+.feature-series__text h2 {
+  margin-block: 0.9rem 1.3rem;
+}
+
+.feature-series__text p + p {
+  margin-top: 1rem;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  justify-content: start;
+  gap: 1rem 2.2rem;
+  margin-block: 1.8rem 2rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--clr-line);
+}
+
+/* Valor encima de la etiqueta sin alterar el orden del HTML (dt antes de dd) */
+.facts div {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.15rem;
+}
+
+.facts dt {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--clr-muted);
+}
+
+.facts dd {
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  line-height: 1.1;
+  color: var(--clr-ink);
+}
+
+/* ---------------------------------------------------------------------
+ * Copias de autor: láminas enmarcadas hechas con CSS
+ * ------------------------------------------------------------------- */
+.prints {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+@media (min-width: 860px) {
+  .prints {
+    grid-template-columns: repeat(3, 1fr);
+    align-items: end;
+  }
+}
+
+.print {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-line);
+}
+
+/* "Pared" donde cuelga la lámina; la altura igual en las tres tarjetas */
+.print__wall {
+  display: grid;
+  place-items: end center;
+  height: 280px;
+  padding: 2rem 1.5rem 2.2rem;
+  background:
+    radial-gradient(ellipse at 50% 25%, rgba(255, 255, 255, 0.06), transparent 60%),
+    #252421;
+}
+
+/* Marco negro + paspartú blanco. El ancho cambia según el tamaño de copia,
+   para que se vea de un vistazo la diferencia entre las tres. */
+.print__frame {
+  width: var(--frame-w, 60%);
+  padding: 4px;
+  background: #0b0b0a;
+  box-shadow: 0 14px 26px rgba(0, 0, 0, 0.55), 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.print__mat {
+  padding: 9%;
+  background: #f4f2ec;
+}
+
+.print__mat img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+.print--s { --frame-w: 42%; }
+.print--m { --frame-w: 62%; }
+.print--l { --frame-w: 84%; }
+
+.print__body {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.4rem, 2.6vw, 2rem);
+}
+
+.print__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.print__price {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  color: var(--clr-ink);
+  white-space: nowrap;
+}
+
+.print__specs {
+  list-style: none;
+  display: grid;
+  gap: 0.4rem;
+  margin-block: 1rem 1.6rem;
+  font-size: 0.9rem;
+}
+
+.print__specs li::before {
+  content: "—";
+  margin-right: 0.6rem;
+  color: var(--clr-muted);
+}
+
+.print .btn {
+  margin-top: auto;
+}
+
+.prints-note {
+  margin-top: 1.6rem;
+  color: var(--clr-muted);
+  font-size: 0.9rem;
+}
+
+/* ---------------------------------------------------------------------
+ * Sobre mí
+ * ------------------------------------------------------------------- */
+.about {
+  display: grid;
+  gap: clamp(2.5rem, 6vw, 5rem);
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .about {
+    grid-template-columns: 0.8fr 1.2fr;
+  }
+}
+
+.about__media img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+.about__text h2 {
+  margin-block: 0.9rem 1.4rem;
+}
+
+.about__text p + p {
+  margin-top: 1rem;
+}
+
+.about__quote {
+  margin-top: 2rem;
+  padding-left: 1.4rem;
+  border-left: 1px solid var(--clr-accent);
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 1.8vw, 1.6rem);
+  font-style: italic;
+  line-height: 1.35;
+  color: var(--clr-ink);
+}
+
+.about__quote footer {
+  margin-top: 0.8rem;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-style: normal;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--clr-muted);
+}
+
+/* ---------------------------------------------------------------------
+ * Contacto
+ * ------------------------------------------------------------------- */
+.contact {
+  display: grid;
+  gap: clamp(2.5rem, 6vw, 5rem);
+}
+
+@media (min-width: 950px) {
+  .contact {
+    grid-template-columns: 0.85fr 1.15fr;
+    align-items: start;
+  }
+}
+
+.contact__info h2 {
+  margin-block: 0.9rem 1.3rem;
+}
+
+.contact__info dl {
+  display: grid;
+  gap: 1.1rem;
+  margin-top: 2.2rem;
+}
+
+.contact__info dt {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--clr-muted);
+}
+
+.contact__info dd {
+  color: var(--clr-ink);
+}
+
+.contact__info dd a {
+  text-decoration: none;
+  border-bottom: 1px solid var(--clr-line);
+}
+
+.contact__info dd a:hover {
+  border-color: var(--clr-ink);
+}
+
+.form-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .form-grid--2 { grid-template-columns: repeat(2, 1fr); }
+}
+
+.field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.field label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--clr-muted);
+}
+
+.field input,
+.field select,
+.field textarea {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  padding: 0.85rem 0;
+  color: var(--clr-ink);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #4a4944;
+  border-radius: 0;
+  transition: border-color 0.3s var(--ease);
+}
+
+.field select option {
+  color: #111;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-bottom-color: var(--clr-ink);
+}
+
+.field input:focus-visible,
+.field select:focus-visible,
+.field textarea:focus-visible {
+  outline: 2px solid var(--clr-ink);
+  outline-offset: 4px;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.field.has-error input,
+.field.has-error select,
+.field.has-error textarea {
+  border-bottom-color: var(--clr-error);
+}
+
+.field__error {
+  min-height: 1.1em;
+  font-size: 0.82rem;
+  color: var(--clr-error);
+}
+
+.field--check {
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 0.8rem;
+}
+
+.field--check input {
+  width: 18px;
+  height: 18px;
+  margin-top: 0.2rem;
+  accent-color: var(--clr-ink);
+}
+
+.field--check label {
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--clr-body);
+}
+
+.field--check .field__error {
+  grid-column: 1 / -1;
+}
+
+.form-status {
+  margin-top: 1.4rem;
+  padding: 1rem 1.2rem;
+  font-size: 0.92rem;
+}
+
+.form-status[data-state="success"] {
+  background: var(--clr-success-bg);
+  color: var(--clr-success);
+}
+
+.form-status[data-state="error"] {
+  background: var(--clr-error-bg);
+  color: var(--clr-error);
+}
+
+.spinner {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------------------------------------------------------------------
+ * Visor a pantalla completa
+ * ------------------------------------------------------------------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  /* Opaco: con un 2 % de transparencia se traslucía la cabecera blanca */
+  background: #060605;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s var(--ease), visibility 0s linear 0.35s;
+}
+
+.lightbox.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.35s var(--ease), visibility 0s;
+}
+
+.lightbox__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.2rem var(--gap);
+  color: var(--clr-muted);
+}
+
+.lightbox__close {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--clr-ink);
+}
+
+.lightbox__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  padding-inline: clamp(0.5rem, 6vw, 5rem);
+  /* evita que el navegador interprete el deslizamiento horizontal como
+     scroll o "atrás"; el JS lo usa para pasar de foto */
+  touch-action: pan-y;
+}
+
+.lightbox__stage img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: opacity 0.3s var(--ease);
+}
+
+.lightbox__stage img.is-loading {
+  opacity: 0;
+}
+
+/* Flechas discretas: sin caja, solo el trazo, más visibles al pasar */
+.lightbox__nav {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: clamp(3rem, 8vw, 6rem);
+  display: grid;
+  place-items: center;
+  color: rgba(242, 240, 234, 0.55);
+  transition: color 0.3s var(--ease);
+}
+
+.lightbox__nav:hover,
+.lightbox__nav:focus-visible {
+  color: var(--clr-ink);
+}
+
+.lightbox__nav--prev { left: 0; }
+.lightbox__nav--next { right: 0; }
+
+@media (max-width: 640px) {
+  /* En móvil se pasa de foto deslizando: las flechas sobrarían encima */
+  .lightbox__nav {
+    display: none;
+  }
+}
+
+.lightbox__info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.4rem 2rem;
+  padding: 1rem var(--gap) 1.6rem;
+}
+
+.lightbox__title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-style: italic;
+  color: var(--clr-ink);
+}
+
+.lightbox__place {
+  color: var(--clr-muted);
+}
+
+.lightbox__exif {
+  color: var(--clr-body);
+  align-self: center;
+}
+
+/* ---------------------------------------------------------------------
+ * Pie
+ * ------------------------------------------------------------------- */
+.site-footer {
+  padding-block: clamp(4rem, 7vw, 5.5rem) 2rem;
+  border-top: 1px solid var(--clr-line);
+}
+
+.site-footer__grid {
+  display: grid;
+  gap: clamp(2rem, 5vw, 4rem);
+}
+
+@media (min-width: 800px) {
+  .site-footer__grid {
+    grid-template-columns: 1.4fr 1fr 1fr;
+  }
+}
+
+.site-footer h2 {
+  margin-bottom: 1.2rem;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--clr-muted);
+}
+
+.site-footer ul {
+  list-style: none;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.site-footer a {
+  text-decoration: none;
+  transition: color 0.25s var(--ease);
+}
+
+.site-footer a:hover {
+  color: var(--clr-ink);
+}
+
+.footer-wordmark {
+  margin-top: clamp(3rem, 7vw, 5rem);
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 11vw, 9.5rem);
+  font-style: italic;
+  line-height: 0.9;
+  color: var(--clr-ink);
+  opacity: 0.08;
+  white-space: nowrap;
+  overflow: hidden;
+  user-select: none;
+}
+
+.site-footer__legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--clr-line);
+  font-size: 0.84rem;
+  color: var(--clr-muted);
+}
+
+.site-footer__legal nav {
+  display: flex;
+  gap: 1.6rem;
+}

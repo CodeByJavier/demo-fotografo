@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Iria Seoane | Fotografía de paisaje en Galicia</title>
+  <meta name="description" content="Iria Seoane, fotógrafa de paisaje en Galicia. Costa da Morte, montaña, bosque y cielo nocturno. Copias de autor numeradas y encargos editoriales." />
+  <meta name="theme-color" content="#0e0e0d" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Iria Seoane | Fotografía de paisaje" />
+  <meta property="og:description" content="Costa, montaña, bosque y cielo nocturno de Galicia. Copias de autor numeradas." />
+  <meta property="og:locale" content="es_ES" />
+  <!-- Cambiar por la URL absoluta al publicar, p. ej.
+       https://TU-USUARIO.github.io/iria-seoane-fotografia/img/portada-1.jpg -->
+  <meta property="og:image" content="img/portada-1.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%230e0e0d'/%3E%3Ccircle cx='12' cy='12' r='6.5' fill='none' stroke='%23f2f0ea' stroke-width='1.4'/%3E%3Ccircle cx='12' cy='12' r='2.2' fill='%23e8553d'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- La primera foto de la portada es el elemento más grande de la pantalla
+       (LCP): se pide cuanto antes y en el tamaño adecuado para cada pantalla -->
+  <link rel="preload" as="image" href="img/portada-1.jpg"
+        imagesrcset="img/portada-1-1000.jpg 1000w, img/portada-1.jpg 2000w" imagesizes="100vw" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <a href="#main" class="skip-link">Saltar al contenido</a>
+
+  <!-- Sprite de iconos -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-prev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4 L7 12 L15 20"/></symbol>
+    <symbol id="i-next" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 L17 12 L9 20"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="7" y="6" width="3" height="12"/><rect x="14" y="6" width="3" height="12"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5 L18.5 12 L8 18.5 Z"/></symbol>
+  </svg>
+
+  <header class="site-header" id="header">
+    <div class="container site-header__inner">
+      <a href="#inicio" class="brand">
+        <span class="brand__name">Iria Seoane</span>
+        <span class="brand__tag">Fotografía</span>
+      </a>
+
+      <nav class="site-nav" id="menu" aria-label="Navegación principal">
+        <ul class="site-nav__list">
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#serie">Serie destacada</a></li>
+          <li><a href="#copias">Copias</a></li>
+          <li><a href="#sobre-mi">Sobre mí</a></li>
+        </ul>
+
+        <a href="#contacto" class="btn btn--ghost site-nav__cta">Contacto</a>
+
+        <div class="site-nav__contact">
+          <p>Estudio en A Coruña<br />Trabajo en toda Galicia</p>
+          <p>
+            <a href="mailto:ola@iriaseoane.gal">ola@iriaseoane.gal</a><br />
+            <a href="tel:+34981000000">981 000 000</a>
+          </p>
+        </div>
+      </nav>
+
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menu">
+        <span data-menu-label>Menú</span>
+        <span class="menu-btn__bars" aria-hidden="true"><span></span><span></span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="nav-backdrop" id="navBackdrop" hidden></div>
+
+  <main id="main">
+
+    <!-- ============ PORTADA: PASE DE FOTOS ============ -->
+    <section class="hero" id="inicio" aria-roledescription="carrusel" aria-label="Fotografías destacadas" data-slideshow>
+      <div class="hero__slides">
+        <div class="hero__slide is-active" role="group" aria-roledescription="diapositiva" aria-label="1 de 4"
+             data-title="Fisterra al caer el sol" data-place="Fisterra, A Coruña" data-exif="f/11 · 1/250 s · ISO 100 · 70 mm">
+          <img src="img/portada-1.jpg" srcset="img/portada-1-1000.jpg 1000w, img/portada-1.jpg 2000w" sizes="100vw"
+               alt="El sol se pone sobre el mar en calma con un islote a contraluz" width="2000" height="1250" fetchpriority="high" />
+        </div>
+        <div class="hero__slide" role="group" aria-roledescription="diapositiva" aria-label="2 de 4" aria-hidden="true"
+             data-title="Néboa nos Ancares" data-place="Os Ancares, Lugo" data-exif="f/9 · 1/200 s · ISO 200 · 105 mm">
+          <img src="img/portada-2.jpg" srcset="img/portada-2-1000.jpg 1000w, img/portada-2.jpg 2000w" sizes="100vw"
+               alt="Capas de montañas difuminadas por la niebla de la mañana" width="2000" height="1250" decoding="async" />
+        </div>
+        <div class="hero__slide" role="group" aria-roledescription="diapositiva" aria-label="3 de 4" aria-hidden="true"
+             data-title="Vía Láctea sobre O Courel" data-place="Serra do Courel, Lugo" data-exif="f/2.8 · 20 s · ISO 3200 · 14 mm">
+          <img src="img/portada-3.jpg" srcset="img/portada-3-1000.jpg 1000w, img/portada-3.jpg 2000w" sizes="100vw"
+               alt="La Vía Láctea atraviesa el cielo estrellado sobre la silueta de las montañas" width="2000" height="1250" decoding="async" />
+        </div>
+        <div class="hero__slide" role="group" aria-roledescription="diapositiva" aria-label="4 de 4" aria-hidden="true"
+             data-title="Fragas do Eume" data-place="Pontedeume, A Coruña" data-exif="f/5.6 · 1/60 s · ISO 400 · 35 mm">
+          <img src="img/portada-4.jpg" srcset="img/portada-4-1000.jpg 1000w, img/portada-4.jpg 2000w" sizes="100vw"
+               alt="Haces de luz entre los troncos de un bosque con niebla" width="2000" height="1250" decoding="async" />
+        </div>
+      </div>
+
+      <div class="container hero__inner">
+        <div>
+          <span class="label label--dot">Fotografía de paisaje · Galicia</span>
+          <h1 class="display-xl hero__title">Paisaje gallego <em>a la luz justa</em></h1>
+          <p class="hero__text">
+            Costa, montaña, bosque y cielo nocturno. Copias de autor numeradas
+            y encargos para editoriales, marcas y turismo.
+          </p>
+          <div class="hero__actions">
+            <a href="#portfolio" class="btn btn--light">Ver portfolio</a>
+            <a href="#copias" class="btn btn--ghost">Comprar copias</a>
+          </div>
+        </div>
+
+        <div class="hero__aside">
+          <!-- aria-live se pone en "polite" solo cuando el pase está en pausa:
+               anunciar cada cambio automático sería ruido para un lector de pantalla -->
+          <p class="hero__caption" data-slide-caption aria-live="off">
+            <span class="hero__caption-title" data-caption-title>Fisterra al caer el sol</span>
+            <span class="mono" data-caption-meta>Fisterra, A Coruña — f/11 · 1/250 s · ISO 100 · 70 mm</span>
+          </p>
+          <div class="hero__controls">
+            <span class="hero__counter mono" aria-hidden="true" data-slide-counter>01 / 04</span>
+            <div class="hero__dots" data-slide-dots>
+              <button type="button" class="hero__dot is-active" aria-label="Ver foto 1 de 4" aria-current="true"><span class="hero__dot-fill"></span></button>
+              <button type="button" class="hero__dot" aria-label="Ver foto 2 de 4"><span class="hero__dot-fill"></span></button>
+              <button type="button" class="hero__dot" aria-label="Ver foto 3 de 4"><span class="hero__dot-fill"></span></button>
+              <button type="button" class="hero__dot" aria-label="Ver foto 4 de 4"><span class="hero__dot-fill"></span></button>
+            </div>
+            <button type="button" class="hero__pause" data-slide-toggle aria-label="Pausar el pase de fotos">
+              <svg width="14" height="14" aria-hidden="true"><use href="#i-pause"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PORTFOLIO ============ -->
+    <section class="section" id="portfolio">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <div>
+            <span class="label label--dot">Portfolio</span>
+            <h2 class="display-l">Cuatro paisajes, <em>una misma luz</em></h2>
+          </div>
+          <ul class="filters" aria-label="Filtrar por serie" data-filters>
+            <!--FILTROS:inicio-->
+            <li><button type="button" data-filter="todas" aria-pressed="true">Todas<sup>14</sup></button></li>
+            <li><button type="button" data-filter="costa" aria-pressed="false">Costa<sup>4</sup></button></li>
+            <li><button type="button" data-filter="montana" aria-pressed="false">Montaña<sup>4</sup></button></li>
+            <li><button type="button" data-filter="bosque" aria-pressed="false">Bosque<sup>3</sup></button></li>
+            <li><button type="button" data-filter="noche" aria-pressed="false">Noche<sup>3</sup></button></li>
+<!--FILTROS:fin-->
+          </ul>
+        </div>
+
+        <p class="sr-only" aria-live="polite" data-gallery-status></p>
+
+        <div class="gallery" data-gallery>
+<!--GALERIA:inicio-->
+          <figure class="shot" data-series="costa" data-reveal>
+            <button type="button" class="shot__open" aria-label="Ampliar «Último sol en Fisterra»"
+                    data-full="img/costa-fisterra.jpg" data-title="Último sol en Fisterra" data-place="Fisterra, A Coruña" data-exif="f/11 · 1/250 s · ISO 100 · 70 mm">
+              <img src="img/costa-fisterra-800.jpg" srcset="img/costa-fisterra-800.jpg 800w, img/costa-fisterra.jpg 1600w" sizes="(min-width: 1320px) 410px, (min-width: 1100px) 31vw, (min-width: 560px) 46vw, 92vw"
+                   alt="Atardecer anaranjado sobre el mar con un islote a contraluz en el horizonte" width="800" height="534" loading="lazy" decoding="async" />
+              <span class="shot__exif mono" aria-hidden="true">f/11 · 1/250 s · ISO 100 · 70 mm</span>
+            </button>
+            <figcaption><span class="shot__title">Último sol en Fisterra</span><span class="shot__place">Fisterra, A Coruña</span></figcaption>
+          </figure>
+          <figure class="shot" data-series="montana" data-reveal>
+            <button type="button" class="shot__open" aria-label="Ampliar «Os Ancares en enero»"
+                    data-full="img/montana-ancares.jpg" data-title="Os Ancares en enero" data-place="Os Ancares, Lugo" data-exif="f/9 · 1/200 s · ISO 200 · 105 mm">
+              <img src="img/montana-ancares-800.jpg" srcset="img/montana-ancares-800.jpg 800w, img/montana-ancares.jpg 1600w" sizes="(min-width: 1320px) 410px, (min-width: 1100px) 31vw, (min-width: 560px) 46vw, 92vw"
+                   alt="Capas de montañas en blanco y negro difuminadas por la niebla" width="800" height="534" loading="lazy" decoding="async" />
+              <span class="shot__exif mono" aria-hidden="true">f/9 · 1/200 s · ISO 200 · 105 mm</span>
+            </button>
+            <figcaption><span class="shot__title">Os Ancares en enero</span><span class="shot__place">Os Ancares, Lugo</span></figcaption>
+          </figure>
+          <figure class="shot" data-series="bosque" data-reveal>
+            <button type="button" class="shot__open" aria-label="Ampliar «Fragas do Eume»"
+                    data-full="img/bosque-eume.jpg" data-title="Fragas do Eume" data-place="Pontedeume, A Coruña" data-exif="f/5.6 · 1/60 s · ISO 400 · 35 mm">
+              <img src="img/bosque-eume-800.jpg" srcset="img/bosque-eume-800.jpg 533w, img/bosque-eume.jpg 1067w" sizes="(min-width: 1320px) 410px, (min-width: 1100px) 31vw, (min-width: 560px) 46vw, 92vw"
+                   alt="Troncos altos de un bosque atravesado por haces de luz entre la niebla" width="533" height="800" loading="lazy" decoding="async" />
+              <span class="shot__exif mono" aria-hidden="true">f/5.6 · 1/60 s · ISO 400 · 35 mm</span>
+            </button>
+            <figcaption><span class="shot__title">Fragas do Eume</span><span class="shot__place">Pontedeume, A Coruña</span></figcaption>
+          </figure>
+          <figure class="shot" data-series="noche" data-reveal>
+            <button type="button" class="shot__open" aria-label="Ampliar «Vía Láctea sobre O Courel»"
+                    data-full="img/noche-courel.jpg" data-title="Vía Láctea sobre O Courel" data-place="Serra do Courel, Lugo" data-exif="f/2.8 · 20 s · ISO 3200 · 14 mm">
+              <img src="img/noche-courel-800.jpg" srcset="img/noche-courel-800.jpg 800w, img/noche-courel.jpg 1600w" sizes="(min-width: 1320px) 410px, (min-width: 1100px) 31vw, (min-width: 560px) 46vw, 92vw"
+                   alt="La Vía Láctea cruzando el cielo estrellado sobre la silueta de las montañas" width="800" height="534" loading="lazy" decoding="async" />
+              <span class="shot__exif mono" aria-hidden="true">f/2.8 · 20 s · ISO 3200 · 14 mm</span>
+            </button>
+            <figcaption><span class="shot__title">Vía Láctea sobre O Courel</span><span class="shot__place">Serra do Courel, Lugo</span></figcaption>
+          </figure>
+          <figure class="shot" data-series="costa" data-reveal>
+            <button type="button" class="shot__open" aria-label="Ampliar «Amanecer frente a las Cíes»"
+                    data-full="img/costa-cies.jpg" data-title="Amanecer frente a las Cíes" data-place="Monteferro, Nigrán" data-exif="f/8 · 1/320 s · ISO 100 · 35 mm">
+              <img src="img/costa-cies-800.jpg" srcset="img/costa-cies-800.jpg 800w, img/costa-cies.jpg 1600w" sizes="(min-width: 1320px) 410px, (min-width: 1100px) 31vw, (min-width: 560px) 46vw, 92vw"
+                   alt="Mar en calma al amanecer con el cielo dorado sobre el horizonte" width="800" height="450" loading="lazy" decoding="async" />
+              <span class="shot__exif mono" aria-hidden="true">f/8 · 1/320 s · ISO 100 · 35 mm</span>
+            </button>
+            <figcaption><span class="shot__title">Amanecer frente a las Cíes</span><span class="shot__place">Monteferro, Nigrán</span></figcaption>
+          </figure>
+          <figure class="shot" data-series="montana" data-reveal>
+            <button type="button" class="shot__open" aria-label="Ampliar «Inversión térmica»"
+                    data-full="img/montana-ribeira.jpg" data-title="Inversión térmica" data-place="Ribeira Sacra, Ourense" data-exif="f/8 · 1/160 s · ISO 100 · 85 mm">
+              <img src="img/montana-ribeira-800.jpg" srcset="img/montana-ribeira-800.jpg 533w, img/montana-ribeira.jpg 1067w" sizes="(min-width: 1320px) 410px, (min-width: 1100px) 31vw, (min-width: 560px) 46vw, 92vw"
+                   alt="Crestas de montaña asomando sobre un mar de niebla al amanecer" width="533" height="800" loading="lazy" decoding="async" />
+              <span class="shot__exif mono" aria-hidden="true">f/8 · 1/160 s · ISO 100 · 85 mm</span>
+            </button>
+            <figcaption><span class="shot__title">Inversión térmica</span><span class="shot__place">Ribeira Sacra, Ourense</span></figcaption>
+          </figure>
+          <figure class="shot" data-series="noche" data-reveal>
+            <button type="button" class="shot__open" aria-label="Ampliar «Perseidas»"
+                    data-full="img/noche-perseidas.jpg" data-title="Perseidas" data-place="Costa da Morte" data-exif="f/2.8 · 15 s · ISO 3200 · 20 mm">
+              <img src="img/noche-perseidas-800.jpg" srcset="img/noche-perseidas-800.jpg 800w, img/noche-perseidas.jpg 1600w" sizes="(min-width: 1320px) 410px, (min-width: 1100px) 31vw, (min-width: 560px) 46vw, 92vw"
+                   alt="Varias estrellas fugaces cruzando un cielo nocturno sobre las montañas" width="800" height="450" loading="lazy" decoding="async" />
+              <span class="shot__exif mono" aria-hidden="true">f/2.8 · 15 s · ISO 3200 · 20 mm</span>
+            </button>
+            <figcaption><span class="shot__title">Perseidas</span><span class="shot__place">Costa da Morte</span></figcaption>
+          </figure>
+          <figure class="shot" data-series="costa" data-reveal>
+            <button type="button" class="shot__open" aria-label="Ampliar «Praia do Trece»"
+                    data-full="img/costa-trece.jpg" data-title="Praia do Trece" data-place="Camariñas, A Coruña" data-exif="f/16 · 30 s · ISO 50 · 24 mm">
+              <img src="img/costa-trece-800.jpg" srcset="img/costa-trece-800.jpg 533w, img/costa-trece.jpg 1067w" sizes="(min-width: 1320px) 410px, (min-width: 1100px) 31vw, (min-width: 560px) 46vw, 92vw"
+                   alt="Fotografía en blanco y negro de dos farallones a contraluz frente a un mar liso de larga exposición" width="533" height="800" loading="lazy" decoding="async" />
+              <span class="shot__exif mono" aria-hidden="true">f/16 · 30 s · ISO 50 · 24 mm</span>
+            </button>
+            <figcaption><span class="shot__title">Praia do Trece</span><span class="shot__place">Camariñas, A Coruña</span></figcaption>
+          </figure>
+          <figure class="shot" data-series="bosque" data-reveal>
+            <button type="button" class="shot__open" aria-label="Ampliar «Souto de Rozabales»"
+                    data-full="img/bosque-rozabales.jpg" data-title="Souto de Rozabales" data-place="Manzaneda, Ourense" data-exif="f/8 · 1/30 s · ISO 200 · 24 mm">
+              <img src="img/bosque-rozabales-800.jpg" srcset="img/bosque-rozabales-800.jpg 800w, img/bosque-rozabales.jpg 1600w" sizes="(min-width: 1320px) 410px, (min-width: 1100px) 31vw, (min-width: 560px) 46vw, 92vw"
+                   alt="Bosque de troncos finos envuelto en niebla" width="800" height="534" loading="lazy" decoding="async" />
+              <span class="shot__exif mono" aria-hidden="true">f/8 · 1/30 s · ISO 200 · 24 mm</span>
+            </button>
+            <figcaption><span class="shot__title">Souto de Rozabales</span><span class="shot__place">Manzaneda, Ourense</span></figcaption>
+          </figure>
+          <figure class="shot" data-series="montana" data-reveal>
+            <button type="button" class="shot__open" aria-label="Ampliar «Serra da Capelada»"
+                    data-full="img/montana-capelada.jpg" data-title="Serra da Capelada" data-place="Cariño, A Coruña" data-exif="f/10 · 1/200 s · ISO 100 · 135 mm">
+              <img src="img/montana-capelada-800.jpg" srcset="img/montana-capelada-800.jpg 800w, img/montana-capelada.jpg 1400w" sizes="(min-width: 1320px) 410px, (min-width: 1100px) 31vw, (min-width: 560px) 46vw, 92vw"
+                   alt="Montañas superpuestas en tonos cálidos bajo un cielo de atardecer" width="800" height="800" loading="lazy" decoding="async" />
+              <span class="shot__exif mono" aria-hidden="true">f/10 · 1/200 s · ISO 100 · 135 mm</span>
+            </button>
+            <figcaption><span class="shot__title">Serra da Capelada</span><span class="shot__place">Cariño, A Coruña</span></figcaption>
+          </figure>
+          <figure class="shot" data-series="costa" data-reveal>
+            <button type="button" class="shot__open" aria-label="Ampliar «Hora azul en Cabo Vilán»"
+                    data-full="img/costa-vilan.jpg" data-title="Hora azul en Cabo Vilán" data-place="Camariñas, A Coruña" data-exif="f/8 · 4 s · ISO 100 · 50 mm">
+              <img src="img/costa-vilan-800.jpg" srcset="img/costa-vilan-800.jpg 640w, img/costa-vilan.jpg 1280w" sizes="(min-width: 1320px) 410px, (min-width: 1100px) 31vw, (min-width: 560px) 46vw, 92vw"
+                   alt="Mar azulado en la hora azul con un pequeño islote en el horizonte" width="640" height="800" loading="lazy" decoding="async" />
+              <span class="shot__exif mono" aria-hidden="true">f/8 · 4 s · ISO 100 · 50 mm</span>
+            </button>
+            <figcaption><span class="shot__title">Hora azul en Cabo Vilán</span><span class="shot__place">Camariñas, A Coruña</span></figcaption>
+          </figure>
+          <figure class="shot" data-series="noche" data-reveal>
+            <button type="button" class="shot__open" aria-label="Ampliar «Cielo de agosto»"
+                    data-full="img/noche-ancares.jpg" data-title="Cielo de agosto" data-place="Os Ancares, Lugo" data-exif="f/2.8 · 25 s · ISO 4000 · 14 mm">
+              <img src="img/noche-ancares-800.jpg" srcset="img/noche-ancares-800.jpg 533w, img/noche-ancares.jpg 1067w" sizes="(min-width: 1320px) 410px, (min-width: 1100px) 31vw, (min-width: 560px) 46vw, 92vw"
+                   alt="Franja de la Vía Láctea en vertical sobre una cresta montañosa" width="533" height="800" loading="lazy" decoding="async" />
+              <span class="shot__exif mono" aria-hidden="true">f/2.8 · 25 s · ISO 4000 · 14 mm</span>
+            </button>
+            <figcaption><span class="shot__title">Cielo de agosto</span><span class="shot__place">Os Ancares, Lugo</span></figcaption>
+          </figure>
+          <figure class="shot" data-series="montana" data-reveal>
+            <button type="button" class="shot__open" aria-label="Ampliar «Valles del Courel»"
+                    data-full="img/montana-courel.jpg" data-title="Valles del Courel" data-place="Serra do Courel, Lugo" data-exif="f/11 · 1/125 s · ISO 100 · 50 mm">
+              <img src="img/montana-courel-800.jpg" srcset="img/montana-courel-800.jpg 800w, img/montana-courel.jpg 1600w" sizes="(min-width: 1320px) 410px, (min-width: 1100px) 31vw, (min-width: 560px) 46vw, 92vw"
+                   alt="Laderas suaves en tonos verdes que se pierden en la bruma" width="800" height="450" loading="lazy" decoding="async" />
+              <span class="shot__exif mono" aria-hidden="true">f/11 · 1/125 s · ISO 100 · 50 mm</span>
+            </button>
+            <figcaption><span class="shot__title">Valles del Courel</span><span class="shot__place">Serra do Courel, Lugo</span></figcaption>
+          </figure>
+          <figure class="shot" data-series="bosque" data-reveal>
+            <button type="button" class="shot__open" aria-label="Ampliar «Carballeira na néboa»"
+                    data-full="img/bosque-carballeira.jpg" data-title="Carballeira na néboa" data-place="Santiago de Compostela" data-exif="f/8 · 1/50 s · ISO 400 · 50 mm">
+              <img src="img/bosque-carballeira-800.jpg" srcset="img/bosque-carballeira-800.jpg 640w, img/bosque-carballeira.jpg 1280w" sizes="(min-width: 1320px) 410px, (min-width: 1100px) 31vw, (min-width: 560px) 46vw, 92vw"
+                   alt="Fotografía en blanco y negro de troncos de roble recortados contra la niebla" width="640" height="800" loading="lazy" decoding="async" />
+              <span class="shot__exif mono" aria-hidden="true">f/8 · 1/50 s · ISO 400 · 50 mm</span>
+            </button>
+            <figcaption><span class="shot__title">Carballeira na néboa</span><span class="shot__place">Santiago de Compostela</span></figcaption>
+          </figure>
+<!--GALERIA:fin-->
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SERIE DESTACADA ============ -->
+    <section class="section section--alt" id="serie">
+      <div class="feature-series">
+        <div class="feature-series__text" data-reveal>
+          <span class="label label--dot">Serie destacada</span>
+          <h2 class="display-l">Costa da Morte, <em>a contraluz</em></h2>
+          <p>
+            Tres inviernos recorriendo la costa entre Malpica y Fisterra a la
+            hora en que el sol cae detrás de los farallones. Sin filtros de
+            color: solo la luz que hay cuando casi nadie mira.
+          </p>
+          <p>
+            La serie se expuso en la Sala de Arte de Fisterra y forma parte de
+            la colección de copias de autor.
+          </p>
+
+          <dl class="facts">
+            <div><dt>Fotografías</dt><dd>24</dd></div>
+            <div><dt>Inviernos</dt><dd>3</dd></div>
+            <div><dt>Kilómetros</dt><dd>170</dd></div>
+          </dl>
+
+          <a href="#portfolio" class="link-arrow" data-filter-link="costa">Ver la serie en el portfolio <span aria-hidden="true">→</span></a>
+        </div>
+
+        <figure class="feature-series__media" data-reveal data-reveal-delay="120">
+          <img src="img/serie-costa-da-morte.jpg" alt="Farallones a contraluz frente a un mar dorado al atardecer" width="2000" height="1125" loading="lazy" />
+          <figcaption class="mono">Cabo Touriñán · f/11 · 1/320 s · ISO 100 · 200 mm</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ COPIAS DE AUTOR ============ -->
+    <section class="section" id="copias">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <div>
+            <span class="label label--dot">Copias de autor</span>
+            <h2 class="display-l">Para colgar, <em>no para guardar</em></h2>
+          </div>
+          <p class="lead" style="max-width: 40ch">
+            Cualquier foto del portfolio, impresa en papel de algodón, firmada
+            y numerada. Edición limitada a 25 copias por tamaño.
+          </p>
+        </div>
+
+        <div class="prints">
+          <article class="print print--s" data-reveal>
+            <div class="print__wall" aria-hidden="true">
+              <div class="print__frame"><div class="print__mat"><img src="img/costa-fisterra-800.jpg" alt="" width="800" height="534" loading="lazy" /></div></div>
+            </div>
+            <div class="print__body">
+              <div class="print__head">
+                <h3 class="display-m">Pequeña</h3>
+                <p class="print__price">90 €</p>
+              </div>
+              <ul class="print__specs">
+                <li>30 × 45 cm, sin marco</li>
+                <li>Papel Hahnemühle Photo Rag 308 g</li>
+                <li>Firmada y numerada a mano</li>
+              </ul>
+              <a href="#contacto" class="btn btn--ghost btn--block" data-prefill="copia" data-prefill-text="Me interesa una copia pequeña (30 × 45 cm) de la foto: ">Pedir esta copia</a>
+            </div>
+          </article>
+
+          <article class="print print--m" data-reveal data-reveal-delay="100">
+            <div class="print__wall" aria-hidden="true">
+              <div class="print__frame"><div class="print__mat"><img src="img/costa-fisterra-800.jpg" alt="" width="800" height="534" loading="lazy" /></div></div>
+            </div>
+            <div class="print__body">
+              <div class="print__head">
+                <h3 class="display-m">Mediana</h3>
+                <p class="print__price">190 €</p>
+              </div>
+              <ul class="print__specs">
+                <li>50 × 75 cm, sin marco</li>
+                <li>Papel Hahnemühle Photo Rag 308 g</li>
+                <li>Certificado de autenticidad</li>
+              </ul>
+              <a href="#contacto" class="btn btn--light btn--block" data-prefill="copia" data-prefill-text="Me interesa una copia mediana (50 × 75 cm) de la foto: ">Pedir esta copia</a>
+            </div>
+          </article>
+
+          <article class="print print--l" data-reveal data-reveal-delay="200">
+            <div class="print__wall" aria-hidden="true">
+              <div class="print__frame"><div class="print__mat"><img src="img/costa-fisterra-800.jpg" alt="" width="800" height="534" loading="lazy" /></div></div>
+            </div>
+            <div class="print__body">
+              <div class="print__head">
+                <h3 class="display-m">Grande</h3>
+                <p class="print__price">340 €</p>
+              </div>
+              <ul class="print__specs">
+                <li>70 × 105 cm, con marco de roble</li>
+                <li>Papel Hahnemühle Photo Rag 308 g</li>
+                <li>Entrega en mano en Galicia</li>
+              </ul>
+              <a href="#contacto" class="btn btn--ghost btn--block" data-prefill="copia" data-prefill-text="Me interesa una copia grande (70 × 105 cm) de la foto: ">Pedir esta copia</a>
+            </div>
+          </article>
+        </div>
+
+        <p class="prints-note">Envío en tubo rígido a toda España en 5–7 días. Otros tamaños, bajo petición.</p>
+      </div>
+    </section>
+
+    <!-- ============ SOBRE MÍ ============ -->
+    <section class="section section--alt" id="sobre-mi">
+      <div class="container about">
+        <figure class="about__media" data-reveal>
+          <img src="img/estudio.jpg" alt="Luz de ventana sobre la pared del estudio, en blanco y negro" width="1200" height="1500" loading="lazy" />
+        </figure>
+
+        <div class="about__text" data-reveal data-reveal-delay="120">
+          <span class="label label--dot">Sobre mí</span>
+          <h2 class="display-l">Salgo antes de que <em>amanezca</em></h2>
+          <p>
+            Soy Iria, fotógrafa de paisaje desde hace doce años. Trabajo casi
+            siempre en Galicia, casi siempre con trípode y casi siempre a horas
+            en las que no hay nadie más.
+          </p>
+          <p>
+            Además de las copias de autor, hago encargos para editoriales,
+            oficinas de turismo y marcas que necesitan contar un lugar, y
+            organizo salidas fotográficas en grupos pequeños.
+          </p>
+
+          <dl class="facts">
+            <div><dt>Años</dt><dd>12</dd></div>
+            <div><dt>Exposiciones</dt><dd>9</dd></div>
+            <div><dt>Copias vendidas</dt><dd>400+</dd></div>
+          </dl>
+
+          <blockquote class="about__quote">
+            <p>“La copia de Fisterra preside el salón desde hace dos años y todavía hay quien se para delante.”</p>
+            <footer>Marta R. · compradora de una copia grande</footer>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACTO ============ -->
+    <section class="section" id="contacto">
+      <div class="container contact">
+        <div class="contact__info" data-reveal>
+          <span class="label label--dot">Contacto</span>
+          <h2 class="display-l">Cuéntame <em>qué necesitas</em></h2>
+          <p>Respondo en menos de 48 horas, normalmente antes.</p>
+
+          <dl>
+            <div><dt>Correo</dt><dd><a href="mailto:ola@iriaseoane.gal">ola@iriaseoane.gal</a></dd></div>
+            <div><dt>Teléfono</dt><dd><a href="tel:+34981000000">981 000 000</a></dd></div>
+            <div><dt>Estudio</dt><dd>A Coruña · visitas con cita</dd></div>
+          </dl>
+        </div>
+
+        <form id="contactForm" novalidate data-reveal data-reveal-delay="120">
+          <div class="form-grid form-grid--2">
+            <div class="field">
+              <label for="name">Nombre</label>
+              <input type="text" id="name" name="name" autocomplete="name" required minlength="2" />
+              <p class="field__error" data-error-for="name" role="alert"></p>
+            </div>
+            <div class="field">
+              <label for="email">Correo</label>
+              <input type="email" id="email" name="email" autocomplete="email" required />
+              <p class="field__error" data-error-for="email" role="alert"></p>
+            </div>
+          </div>
+
+          <div class="field" style="margin-top: 1.5rem">
+            <label for="reason">Motivo</label>
+            <select id="reason" name="reason" required>
+              <option value="" selected disabled>Elige una opción</option>
+              <option value="copia">Copia de autor</option>
+              <option value="encargo">Encargo editorial o de marca</option>
+              <option value="salida">Salida fotográfica</option>
+              <option value="otro">Otro</option>
+            </select>
+            <p class="field__error" data-error-for="reason" role="alert"></p>
+          </div>
+
+          <div class="field" style="margin-top: 1.5rem">
+            <label for="message">Mensaje</label>
+            <textarea id="message" name="message" rows="4" required minlength="10"></textarea>
+            <p class="field__error" data-error-for="message" role="alert"></p>
+          </div>
+
+          <div class="field field--check" style="margin-top: 1.5rem">
+            <input type="checkbox" id="privacy" name="privacy" required />
+            <label for="privacy">He leído y acepto la política de privacidad.</label>
+            <p class="field__error" data-error-for="privacy" role="alert"></p>
+          </div>
+
+          <div style="margin-top: 1rem">
+            <button type="submit" class="btn btn--light btn--block" id="submitBtn">
+              <span data-submit-label>Enviar mensaje</span>
+              <span class="spinner" hidden data-spinner aria-hidden="true"></span>
+            </button>
+          </div>
+
+          <div class="form-status" data-form-status role="status" aria-live="polite" hidden></div>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div>
+          <h2>Iria Seoane · Fotografía</h2>
+          <p>Fotografía de paisaje en Galicia. Copias de autor y encargos.</p>
+        </div>
+        <div>
+          <h2>Explorar</h2>
+          <ul>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#serie">Serie destacada</a></li>
+            <li><a href="#copias">Copias de autor</a></li>
+            <li><a href="#sobre-mi">Sobre mí</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Contacto</h2>
+          <ul>
+            <li><a href="mailto:ola@iriaseoane.gal">ola@iriaseoane.gal</a></li>
+            <li><a href="tel:+34981000000">981 000 000</a></li>
+            <li><a href="#" rel="noopener">Instagram</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="footer-wordmark" aria-hidden="true">Iria Seoane</p>
+
+      <div class="site-footer__legal">
+        <p>© <span data-year></span> Iria Seoane. Todas las fotografías tienen derechos reservados.</p>
+        <nav aria-label="Legal">
+          <a href="#">Aviso legal</a>
+          <a href="#">Privacidad</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Visor -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Visor de fotografías" hidden>
+    <div class="lightbox__bar">
+      <span class="mono" data-lightbox-counter>1 / 14</span>
+      <button type="button" class="lightbox__close" data-lightbox-close>
+        Cerrar <svg width="16" height="16" aria-hidden="true"><use href="#i-close"/></svg>
+      </button>
+    </div>
+
+    <div class="lightbox__stage" data-lightbox-stage>
+      <button type="button" class="lightbox__nav lightbox__nav--prev" data-lightbox-prev aria-label="Foto anterior">
+        <svg width="34" height="34" aria-hidden="true"><use href="#i-prev"/></svg>
+      </button>
+      <img src="" alt="" data-lightbox-img />
+      <button type="button" class="lightbox__nav lightbox__nav--next" data-lightbox-next aria-label="Foto siguiente">
+        <svg width="34" height="34" aria-hidden="true"><use href="#i-next"/></svg>
+      </button>
+    </div>
+
+    <div class="lightbox__info">
+      <p><span class="lightbox__title" data-lightbox-title></span> <span class="lightbox__place" data-lightbox-place></span></p>
+      <p class="lightbox__exif mono" data-lightbox-exif></p>
+    </div>
+  </div>
+
+  <script src="js/script.js" defer></script>
+</body>
+</html>
